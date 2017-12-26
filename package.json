@@ -1,0 +1,15 @@
+{
+  "name": "sharp-img",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "conan <lcc19941214@gmail.com> (https://github.com/lcc19941214/)",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.18.4"
+  }
+}
