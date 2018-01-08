@@ -29,31 +29,34 @@ const sharpImg = (filename, fileBuffer) => {
           reject(err);
           return;
         }
-        resolve(console.log(`sharp ${filename} successfully`));
+        resolve();
       });
   });
 };
 
-readdir(INPUT_DIR, 'utf8')
-  .then(files => {
-    const filesList = files.filter(v => !IGNORE_FILES.includes(v));
+const init = async () => {
+  try {
+    const files = await readdir(INPUT_DIR, 'utf8');
+    const filesList = files.concat();
     if (filesList.length) {
-      filesList.forEach(filename => {
-        readFile(path.join(INPUT_DIR, filename))
-          .then(fileBuffer => {
-            return sharpImg(filename, fileBuffer);
-          })
-          .catch(err => {
-            console.error(err);
-            console.log(`failed at sharping ${filename}`);
-          });
+      filesList.forEach(async filename => {
+        try {
+          const fileBuffer = await readFile(path.join(INPUT_DIR, filename));
+          await sharpImg(filename, fileBuffer);
+          console.log(`sharp ${filename} successfully`);
+        } catch (err) {
+          console.error(err);
+          console.log(`failed at sharping ${filename}`);
+        }
       });
     } else {
       console.log('no input files');
       process.exit();
     }
-  })
-  .catch(err => {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     process.exit();
-  });
+  }
+};
+
+init();
